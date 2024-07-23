@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { FaEnvelope } from 'react-icons/fa';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    message: ''
+    questions: ''
   });
 
   const handleChange = (e) => {
@@ -16,56 +18,75 @@ const Contact = () => {
     e.preventDefault();
     alert('Message sent successfully!');
     setFormData({
-      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
-      message: ''
+      questions: ''
     });
   };
 
   return (
-    <div className="min-h-screen bg-[#EEE9DD] flex flex-col items-center justify-center p-6">
-      <div className="bg-white p-8 rounded-md shadow-md max-w-md w-full">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Contact Us</h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-            <input 
-              type="text" 
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C8B8A2]" 
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input 
-              type="email" 
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C8B8A2]" 
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-            <textarea 
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C8B8A2]" 
-              rows="4"
-            ></textarea>
-          </div>
-          <div className="text-center">
-            <button 
-              type="submit" 
-              className="px-6 py-2 bg-[#C8B8A2] text-white rounded-md hover:bg-opacity-80 transition"
-            >
-              Send Message
-            </button>
-          </div>
-        </form>
+    <div className="min-h-screen bg-gradient-to-b from-[#EEE9DD] to-[#E3E3E3] flex flex-col items-center justify-center p-6">
+     
+      <div className="bg-white p-8 rounded-md shadow-md max-w-4xl w-full flex">
+        <div className="flex-1 flex items-center justify-center">
+          <FaEnvelope className="text-brown-600" size={200} style={{ color: '#C8B8A2' }} />
+        </div>
+        <div className="flex-1">
+          <h2 className="text-2xl font-bold text-[#8B4513] mb-6 text-center">HAVE SOME QUESTIONS?</h2>
+          <form className="space-y-4 w-full" onSubmit={handleSubmit}>
+            <div className="flex space-x-4">
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-[#8B4513] mb-1">Full Name</label>
+                <input 
+                  type="text" 
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C8B8A2]" 
+                />
+              </div>
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-[#8B4513] mb-1">Contact Number</label>
+                <input 
+                  type="text" 
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C8B8A2]" 
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#8B4513] mb-1">What's your email?</label>
+              <input 
+                type="email" 
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C8B8A2]" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#8B4513] mb-1">Your questions...</label>
+              <textarea 
+                name="questions"
+                value={formData.questions}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C8B8A2]" 
+                rows="4"
+              ></textarea>
+            </div>
+            <div className="text-center">
+              <button 
+                type="submit" 
+                className="px-6 py-2 bg-gradient-to-r from-[#C8B8A2] to-[#8B7D6B] text-white rounded-md hover:bg-opacity-80 transition"
+              >
+                Send Message
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
