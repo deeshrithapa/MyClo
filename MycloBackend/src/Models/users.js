@@ -1,46 +1,36 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose; //destructuring
-// const Schema = mongoose.Schema
+const { Schema } = mongoose;
+
 const userSchema = new Schema({
-    name:{
-
+    name: {
         type: String,
         required: true
     },
-
-    age:{
-
+    age: {
         type: Number,
         required: true
     },
-
-    address:{
-
+    address: {
         type: String,
         required: true
     },
-
-    phone:{
-
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
         type: Number,
         required: true
     },
-
-    email:{
-        type: String,
-        required: true
-    },
-
-    date:{
-
+    date: {
         type: Date,
         default: Date.now
     },
-
-    role:{
-
+    role: {
         type: String,
-        enum: ['Admin', 'User']
-    }  
+        enum: ["admin", "user"]
+    }
 });
 
+const User = mongoose.model("User", userSchema);
+module.exports = User;
