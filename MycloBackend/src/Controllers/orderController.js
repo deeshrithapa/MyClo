@@ -1,12 +1,11 @@
 const Order = require('../Models/orders');
 
 const createOrder = async (req, res) => {
-    const { user, products, status } = req.body;
+    const { user, products } = req.body;
 
     const addOrder = new Order({
         user,
-        products,
-        status
+        products
     });
 
     try {

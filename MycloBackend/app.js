@@ -1,20 +1,7 @@
-// const express = require('express');
-// const app = express();
-// const connectDB = require("./src/Config/db");
-// app.use(express.json());
-// const port = 3000;
-
-// //used to connect to database
-// connectDB();
-
-
-
-// app.listen(port, ()=>{
-//     console.log(`server is running on ${port}`)
-// })
-
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 const userRoutes = require('./src/Routes/userRoutes');
 const productRoutes = require('./src/Routes/productRoutes');
 const orderRoutes = require('./src/Routes/orderRoutes');
@@ -27,7 +14,7 @@ const app = express();
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('your-mongodb-connection-string', {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
