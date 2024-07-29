@@ -8,6 +8,10 @@ import WelcomeComponent from './components/Welcome/WelcomeComponent';
 import Registration from './components/User/Registration';
 import Login from './components/User/Login';
 import Contact from './components/Footer/Contact';
+import AboutComponent from './components/Content/About';
+import Mission from './components/Content/Mission';
+import Vision from './components/Content/Vision';
+
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
 <Route path="/profile" element={<Registration />} />
 <Route path="/login" element={ <Login /> } />
 <Route path="/contact" element={ <Contact /> } />
+<Route path="/about" element={ <AboutComponent /> } />
+<Route path="/mission" element={<Mission />} /> {/* Add route for Learn More Page */}
+<Route path="/vision" element={<Vision />} /> {/* Add route for Learn More Page */}
+
 
 
 

@@ -8,6 +8,7 @@ const orderRoutes = require('./src/Routes/orderRoutes');
 const designRoutes = require('./src/Routes/designRoutes');
 const fabricRoutes = require('./src/Routes/fabricRoutes');
 const categoryRoutes = require('./src/Routes/categoryRoutes');
+const authRoutes = require('./src/Routes/authRoutes');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/designs', designRoutes);
 app.use('/api/fabrics', fabricRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/auth', authRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

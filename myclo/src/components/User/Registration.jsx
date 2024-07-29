@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 
@@ -11,8 +11,17 @@ const Registration = () => {
     contactNumber: '',
     password: ''
   });
+  const [bgImageLoaded, setBgImageLoaded] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = loginImage;
+    img.onload = () => {
+      setBgImageLoaded(true);
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,8 +37,13 @@ const Registration = () => {
 
   return (
     <div 
-      className="flex items-center justify-center min-h-screen bg-cover bg-center" 
-      style={{ backgroundImage: `url(${loginImage})` }}
+      className={`flex items-center justify-center min-h-screen transition-opacity duration-500 ${bgImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+      style={{ 
+        backgroundImage: `url(${loginImage})`, 
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center',
+        backgroundColor: '#C8B8A2', // Placeholder background color
+      }}
     >
       <div className="bg-[#C8B8A2] bg-opacity-75 p-10 rounded shadow-md max-w-4xl w-full">
         <h2 className="text-3xl font-bold mb-8 text-center text-white">Create New Account</h2>

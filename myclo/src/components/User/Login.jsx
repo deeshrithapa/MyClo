@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 
@@ -9,6 +9,14 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = loginImage;
+    img.onload = () => {
+      document.body.style.backgroundImage = `url(${loginImage})`;
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
