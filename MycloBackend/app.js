@@ -2,13 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const userRoutes = require('./src/Routes/userRoutes');
+
 const productRoutes = require('./src/Routes/productRoutes');
 const orderRoutes = require('./src/Routes/orderRoutes');
 const designRoutes = require('./src/Routes/designRoutes');
 const fabricRoutes = require('./src/Routes/fabricRoutes');
 const categoryRoutes = require('./src/Routes/categoryRoutes');
-const authRoutes = require('./src/Routes/authRoutes');
+const authRoute = require('./src/Routes/authRoute');
+const profileRoutes = require("./src/Routes/profileRoutes");
+const userProfileRoutes = require("./src/Routes/userRoute");
 
 const app = express();
 
@@ -25,13 +27,19 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Use routes
-app.use('/api/users', userRoutes);
+
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/designs', designRoutes);
 app.use('/api/fabrics', fabricRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoute);
+app.use("/user", userProfileRoutes);
+
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use('/api/profile', profileRoutes);
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

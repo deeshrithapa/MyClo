@@ -17,20 +17,15 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Middleware to hash the password before saving the user
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
-    return next();
-  }
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
     next();
-  } catch (err) {
-    next(err);
   }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
-const AuthUser = mongoose.model('AuthUser', userSchema);
+const User = mongoose.model('AuthUser', userSchema);
 
-module.exports = AuthUser;
+module.exports = User;
