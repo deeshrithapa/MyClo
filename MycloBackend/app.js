@@ -10,7 +10,7 @@ const fabricRoutes = require('./src/Routes/fabricRoutes');
 const categoryRoutes = require('./src/Routes/categoryRoutes');
 const authRoute = require('./src/Routes/authRoute');
 const profileRoutes = require("./src/Routes/profileRoutes");
-const userProfileRoutes = require("./src/Routes/userRoute");
+
 
 const app = express();
 
@@ -33,12 +33,15 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/designs', designRoutes);
 app.use('/api/fabrics', fabricRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/api/auth', authRoute);
-app.use("/user", userProfileRoutes);
 
-// Serve static files from the 'uploads' directory
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use('/api/profile', profileRoutes);
+
+app.use('/api/auth', authRoute);
+
+
+
+
 
 
 // Start server
