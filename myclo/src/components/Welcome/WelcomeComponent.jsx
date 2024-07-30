@@ -28,7 +28,7 @@ const WelcomeComponent = () => {
 
   return (
     <div className="bg-beige min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl w-full bg-beige border-8 p-4 rounded-md shadow-lg" style={{ borderColor: '#C8B8A2', height: '85vh' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl w-full bg-beige border-4 p-4 rounded-md shadow-lg" style={{ borderColor: '#C8B8A2', height: '85vh' }}>
         <div className="flex justify-center">
           <img
             src={hangImage}

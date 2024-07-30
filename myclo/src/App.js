@@ -11,6 +11,10 @@ import Contact from './components/Footer/Contact';
 import AboutComponent from './components/Content/About';
 import Mission from './components/Content/Mission';
 import Vision from './components/Content/Vision';
+import Shop from './components/Shop/Shop';
+import DiscoverPage from './components/Content/DiscoverPage';
+
+
 
 
 function App() {
@@ -27,8 +31,11 @@ function App() {
 <Route path="/login" element={ <Login /> } />
 <Route path="/contact" element={ <Contact /> } />
 <Route path="/about" element={ <AboutComponent /> } />
-<Route path="/mission" element={<Mission />} /> {/* Add route for Learn More Page */}
-<Route path="/vision" element={<Vision />} /> {/* Add route for Learn More Page */}
+<Route path="/mission" element={<Mission />} /> 
+<Route path="/vision" element={<Vision />} /> 
+<Route path="/shop" element={<Shop />} />
+<Route path="/discover" element={<DiscoverPage />} />
+
 
 
 
