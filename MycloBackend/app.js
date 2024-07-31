@@ -7,9 +7,10 @@ const productRoutes = require('./src/Routes/productRoutes');
 const orderRoutes = require('./src/Routes/orderRoutes');
 const designRoutes = require('./src/Routes/designRoutes');
 const fabricRoutes = require('./src/Routes/fabricRoutes');
-const categoryRoutes = require('./src/Routes/categoryRoutes');
+// const categoryRoutes = require('./src/Routes/categoryRoutes');
 const authRoute = require('./src/Routes/authRoute');
 const profileRoutes = require("./src/Routes/profileRoutes");
+const categoryRoutes=require('./src/Routes/categoryRoutes')
 
 
 const app = express();
@@ -32,12 +33,13 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/designs', designRoutes);
 app.use('/api/fabrics', fabricRoutes);
-app.use('/api/categories', categoryRoutes);
+// app.use('/api/categories', categoryRoutes);
 
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use('/api/profile', profileRoutes);
 
 app.use('/api/auth', authRoute);
+app.use('/api/category',categoryRoutes)
 
 
 

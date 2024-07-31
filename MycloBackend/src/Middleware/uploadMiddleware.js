@@ -1,5 +1,6 @@
 const multer = require('multer');
 const { diskStorage } = require('multer');
+// const diskStorage = multer.diskStorage;
 const path = require('path');
 
 // Regular expression to eliminate whitespace and special characters from file names
@@ -49,12 +50,26 @@ const profileImageStorage = diskStorage({
   filename,
 });
 
+// product image storage
+
+const productImageStorage = diskStorage({
+  destination: getDestination("products"),
+  filename,
+});
+
 // Multer instances
 const profileImage = multer({
   storage: profileImageStorage,
   fileFilter: filter,
 });
 
+// product image 
+const productImage = multer({
+  storage: productImageStorage,
+  fileFilter: filter,
+});
+
 module.exports = {
   profileImage,
+  productImage
 };
