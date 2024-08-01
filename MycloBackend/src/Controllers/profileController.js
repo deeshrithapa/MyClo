@@ -1,5 +1,6 @@
 const domain = "http://localhost:3000";
-const UserProfile=require('../Models/userProfile')
+const userProfile = require("../Models/userProfile");
+
 
 // Helper function to send error responses
 const sendErrorResponse = (res, error) => {
@@ -17,7 +18,7 @@ const updateUserProfile = async (req, res) => {
       updateData.profileImage = profileImage;
     }
 
-    const profile = await UserProfile.findOneAndUpdate(
+    const profile = await userProfile.findOneAndUpdate(
       { user: req.user.id },
       updateData,
       { new: true, runValidators: true }
@@ -35,8 +36,9 @@ const updateUserProfile = async (req, res) => {
 
 // Get user profile
 const getUserProfile = async (req, res) => {
+  console.log(req.user.id)
   try {
-    const profile = await UserProfiles.findOne({ user: req.user._id }).populate(
+    const profile = await userProfile.findOne({ user: req.user.id }).populate(
       "user",
       ["name", "email"]
     );
@@ -52,7 +54,7 @@ const getUserProfile = async (req, res) => {
 // Get all user profiles
 const getAllUserProfiles = async (req, res) => {
   try {
-    const profiles = await UserProfiles.find().populate("user", [
+    const profiles = await userProfile.find().populate("user", [
       "name",
       "email",
     ]);
@@ -65,7 +67,7 @@ const getAllUserProfiles = async (req, res) => {
 // Get user profile by ID
 const getUserProfileById = async (req, res) => {
   try {
-    const profile = await UserProfiles.findOne({
+    const profile = await userProfile.findOne({
       user: req.params.id,
     }).populate("user", ["name", "email"]);
     if (!profile) {
@@ -80,7 +82,7 @@ const getUserProfileById = async (req, res) => {
 // Delete user profile
 const deleteUserProfile = async (req, res) => {
   try {
-    const profile = await UserProfiles.findOneAndDelete({ user: req.user._id });
+    const profile = await userProfile.findOneAndDelete({ user: req.user.id });
     if (!profile) {
       return res.status(404).json({ msg: "Profile not found" });
     }

@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
     await user.save(); //user id cretaed after registration
 
     //Create profile for new user
-    const newProfile = new UserProfile({user:user._id});
+    const newProfile = new UserProfile({user:user.id});
     await newProfile.save();
 
 

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'User',  // Make sure this matches the name of the model in authUserModel.js
         required: true
     },
     bio: {

@@ -10,22 +10,15 @@ const fabricRoutes = require('./src/Routes/fabricRoutes');
 // const categoryRoutes = require('./src/Routes/categoryRoutes');
 const authRoute = require('./src/Routes/authRoute');
 const profileRoutes = require("./src/Routes/profileRoutes");
-const categoryRoutes=require('./src/Routes/categoryRoutes')
+const categoryRoutes=require('./src/Routes/categoryRoutes');
+const connectDB = require('./src/Config/db');
 
 
 const app = express();
 
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log('Connected to MongoDB');
-}).catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
-});
+ connectDB()
 
 // Use routes
 
