@@ -1,21 +1,23 @@
-const Order = require('../Models/orders');
+const Order = require("../Models/order");
 
-const createOrder = async (req, res) => {
-    const { user, products } = req.body;
-
-    const addOrder = new Order({
-        user,
-        products
-    });
-
-    try {
-        const response = await addOrder.save();
-        if (response) {
-            res.status(201).json({ message: "Order created successfully", response });
-        }
-    } catch (err) {
-        res.status(500).json({ message: "Internal Server Error", err });
-    }
+exports.addOrder = async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.status(201).json(order);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
-module.exports = createOrder;
+exports.updateOrder = async (req, res) => {
+  try {
+    const order = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

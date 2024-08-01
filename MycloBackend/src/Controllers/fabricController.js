@@ -1,22 +1,23 @@
-const Fabric = require('../Models/fabrics');
+const Fabric = require("../Models/fabric");
 
-const createFabric = async (req, res) => {
-    const { name, type, pricePerYard } = req.body;
-
-    const addFabric = new Fabric({
-        name,
-        type,
-        pricePerYard
-    });
-
-    try {
-        const response = await addFabric.save();
-        if (response) {
-            res.status(201).json({ message: "Fabric created successfully", response });
-        }
-    } catch (err) {
-        res.status(500).json({ message: "Internal Server Error", err });
-    }
+exports.addFabric = async (req, res) => {
+  try {
+    const fabric = new Fabric(req.body);
+    await fabric.save();
+    res.status(201).json(fabric);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
-module.exports = createFabric;
+exports.updateFabric = async (req, res) => {
+  try {
+    const fabric = await Fabric.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!fabric) {
+      return res.status(404).json({ error: "Fabric not found" });
+    }
+    res.status(200).json(fabric);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

@@ -1,8 +1,10 @@
-const express = require('express');
-const createDesign = require('../Controllers/designController');
+const express = require("express");
 const router = express.Router();
+const auth = require("../Middleware/authMiddleware");
+const authorizeRole = require("../Middleware/authorizationMiddleware");
+const { addDesign, updateDesign } = require("../Controllers/designController");
 
-// Route to create design
-router.post('/createDesign', createDesign);
+router.post("/create", auth, authorizeRole("admin"), addDesign);
+router.put("/update/:id", auth, authorizeRole("admin"), updateDesign);
 
 module.exports = router;

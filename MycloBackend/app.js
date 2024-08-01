@@ -11,6 +11,11 @@ const fabricRoutes = require('./src/Routes/fabricRoutes');
 const authRoute = require('./src/Routes/authRoute');
 const profileRoutes = require("./src/Routes/profileRoutes");
 const categoryRoutes=require('./src/Routes/categoryRoutes');
+const discountRoutes = require('./src/Routes/discountRoutes'); // Import the discount routes
+const itemRoutes=require('./src/Routes/itemRoutes');
+const measurementRoutes=require('./src/Routes/measurementRoutes');
+
+
 const connectDB = require('./src/Config/db');
 
 
@@ -27,6 +32,12 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/designs', designRoutes);
 app.use('/api/fabrics', fabricRoutes);
 // app.use('/api/categories', categoryRoutes);
+app.use('/api/discounts', discountRoutes); 
+app.use('/api/items', itemRoutes); 
+app.use('/api/measurements', measurementRoutes); 
+
+
+
 
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use('/api/profile', profileRoutes);
