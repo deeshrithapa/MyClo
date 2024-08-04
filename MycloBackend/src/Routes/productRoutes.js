@@ -17,7 +17,7 @@ const {
  * @param {Object} res - Express response object
  * @returns {Object} response - The response object containing the created product
  */
-router.post('/create', authMiddleware, authorizeRole('admin'), createProduct);
+router.post('/create', authMiddleware,productImage.single('productImage'), authorizeRole('admin'), createProduct);
 
 /**
  * @description Update an existing product

@@ -5,14 +5,14 @@ const sendErrorResponse = (res, error) => {
     res.status(500).json({ msg: error.message });
   };
 const createProduct = async (req, res) => {
-  const { name, price, description} = req.body;
+  const { name, price, description,productImage} = req.body;
 
   const newProduct = new Product({
     name: name,   
     price: price,
     description: description,
-    // stock: stock,
-    imageUrl: imageUrl
+    // stock: stock,  
+    productImage: productImage
   });
 
   try {
