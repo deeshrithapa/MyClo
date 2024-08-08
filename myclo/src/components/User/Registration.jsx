@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 
 const Registration = () => {
@@ -12,6 +13,7 @@ const Registration = () => {
     password: ''
   });
   const [bgImageLoaded, setBgImageLoaded] = useState(false);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -28,11 +30,17 @@ const Registration = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform registration logic here
-    // After successful registration, redirect to login
-    navigate('/login');
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+      console.log(response.data);
+      // Redirect to login page after successful registration
+      navigate('/login');
+    } catch (error) {
+      setError(error.response ? error.response.data.message : 'An error occurred');
+      console.error(error);
+    }
   };
 
   return (
@@ -119,6 +127,7 @@ const Registration = () => {
               Join Now
             </button>
           </div>
+          {error && <div className="text-center text-red-500 mt-4">{error}</div>}
           <div className="text-center mt-4">
             <p className="text-white">
               Already have an account? <a href="/login" className="text-black hover:underline">Login</a>

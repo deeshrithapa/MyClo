@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 
 const Login = () => {
@@ -7,6 +8,7 @@ const Login = () => {
     email: '',
     password: ''
   });
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -23,11 +25,17 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform login logic here
-    // After successful login, redirect to profile or another page
-    navigate('/profile');
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      console.log(response.data);
+      // Redirect to profile page after successful login
+      navigate('/');
+    } catch (error) {
+      setError(error.response ? error.response.data.message : 'An error occurred');
+      console.error(error);
+    }
   };
 
   return (
@@ -66,6 +74,7 @@ const Login = () => {
               Login
             </button>
           </div>
+          {error && <div className="text-center text-red-500 mt-4">{error}</div>}
           <div className="text-center mt-4">
             <p className="text-white">
               Don't have an account? <a href="/profile" className="text-black hover:underline">Sign up now</a>

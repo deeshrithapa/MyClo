@@ -2,12 +2,12 @@ const User = require('../Models/authUserModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const UserProfile = require('../Models/userProfile')
+const UserProfile = require('../Models/userProfile');
 
 dotenv.config();
 
 const registerUser = async (req, res) => {
-  const { name, email,role, password } = req.body;
+  const { fullName, dob, email, address, contactNumber, role, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -17,26 +17,27 @@ const registerUser = async (req, res) => {
     }
 
     user = new User({
-      name,
+      fullName,
+      dob,
       email,
+      address,
+      contactNumber,
       role,
       password,
     });
-    
-    await user.save(); //user id cretaed after registration
 
-    //Create profile for new user
-    const newProfile = new UserProfile({user:user.id});
+    await user.save(); // User ID created after registration
+
+    // Create profile for new user
+    const newProfile = new UserProfile({ user: user.id });
     await newProfile.save();
 
-
-    //do this if you want to redirect to dashboard after registration
+    // If you want to redirect to dashboard after registration
     // const payload = {
     //   user: {
     //     id: user.id,
     //   },
-    // };     
-    
+    // };
     
     // jwt.sign(
     //   payload,
@@ -44,12 +45,12 @@ const registerUser = async (req, res) => {
     //   { expiresIn: '1h' },
     //   (err, token) => {
     //     if (err) throw err;
-    //     res.json({ msg:"User Registered suceffully", token, user:user });
+    //     res.json({ msg: "User Registered successfully", token, user: user });
     //   }
     // );
 
     res.status(201).json({
-      msg: "User registered sucessfully",
+      msg: "User registered successfully",
       user: user,
       userProfile: newProfile,
     });
@@ -87,7 +88,7 @@ const loginUser = async (req, res) => {
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({msg:"User Logged-In sucessfully", token, userDetails:user });
+        res.json({ msg: "User Logged-In successfully", token, userDetails: user });
       }
     );
   } catch (err) {
