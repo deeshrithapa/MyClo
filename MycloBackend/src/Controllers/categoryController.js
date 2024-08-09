@@ -25,7 +25,7 @@ const addCategory = async (req, res) => {
   }
 };
 
-// controller for getting all categories
+// // controller for getting all categories
 
 const getCategories = async (req, res) => {
   try {
@@ -54,7 +54,7 @@ const getCategory = async (req, res) => {
     }
 
 
-// controller for updating a category
+//controller for updating a category
 
 const updateCategory = async (req, res) => {
     const { name, description } = req.body;
@@ -78,7 +78,7 @@ const updateCategory = async (req, res) => {
     }
     }
 
-// controller for deleting a category
+//controller for deleting a category
 
 const deleteCategory = async (req, res) => {
     try {
@@ -92,4 +92,4 @@ const deleteCategory = async (req, res) => {
     }
     }
 
-module.exports = { addCategory, getCategories, getCategory, updateCategory, deleteCategory };
+module.exports = { addCategory, updateCategory, getCategories, deleteCategory };

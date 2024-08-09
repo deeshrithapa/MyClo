@@ -1,14 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../Middleware/authMiddleware");
-const authorizeRole = require("../Middleware/authorizationMiddleware");
-const categoryController = require("../Controllers/categoryController");
-const { addCategory, updateCategory } = require("../Controllers/categoryController"); // Import the updateCategory controller
+const  authorizeRole  = require("../Middleware/authorizationMiddleware");
+const {
+  addCategory,
+  updateCategory,
+  getCategories,
+  deleteCategory,
+} = require("../Controllers/categoryController");
 
 /**
- * @description To get all categories
+ * @description To create categories
  * @api /api/category/create
- * @access PUBLIC
+ * @access Private
  * @type POST
  * @return response
  */
@@ -16,12 +20,30 @@ const { addCategory, updateCategory } = require("../Controllers/categoryControll
 router.post("/create", auth, authorizeRole("admin"), addCategory);
 
 /**
- * @description To update a category
+ * @description To get all categories
+ * @api /api/category/all
+ * @access Public
+ * @type GET
+ * @return response
+ */
+router.get("/all", getCategories);
+
+/**
+ * @description To update categories by id
  * @api /api/category/update/:id
- * @access PRIVATE
+ * @access Private
  * @type PUT
  * @return response
  */
-router.put("/update/:id", auth, authorizeRole('admin'), updateCategory)
+router.patch("/update/:id", auth, authorizeRole("admin"), updateCategory);
+
+/**
+ * @description To delete categories by id
+ * @api /api/category/delete/:id
+ * @access Private
+ * @type DELETE
+ * @return response
+ */
+router.delete("/delete/:id", auth, authorizeRole("admin"), deleteCategory);
 
 module.exports = router;

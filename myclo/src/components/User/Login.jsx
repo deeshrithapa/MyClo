@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+// import {useDispatch} from "react-redux";
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 
 const Login = () => {
@@ -8,8 +9,8 @@ const Login = () => {
     email: '',
     password: ''
   });
-  const [error, setError] = useState(null);
 
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {

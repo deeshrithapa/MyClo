@@ -13,6 +13,8 @@ function NavbarComponent() {
           <div className="flex space-x-4 flex-1">
             <Link to="/shop" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Shop</Link>
             <Link to="/discover" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Discover</Link>
+            <Link to="/category" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Category</Link>
+
           </div>
           
           {/* Center logo */}
