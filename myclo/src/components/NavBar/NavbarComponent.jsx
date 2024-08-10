@@ -14,6 +14,7 @@ function NavbarComponent() {
             <Link to="/shop" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Shop</Link>
             <Link to="/discover" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Discover</Link>
             <Link to="/category" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Category</Link>
+            <Link to="/product" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Product</Link>
 
           </div>
           

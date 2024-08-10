@@ -88,7 +88,7 @@ const loginUser = async (req, res) => {
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ msg: "User Logged-In successfully", token, userDetails: user });
+        res.json({ msg: "User Logged-In successfully", token:`Bearer ${token}`, userDetails: user });
       }
     );
   } catch (err) {

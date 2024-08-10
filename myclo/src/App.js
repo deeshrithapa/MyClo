@@ -14,6 +14,7 @@ import Vision from './components/Content/Vision';
 import Shop from './components/Shop/Shop';
 import DiscoverPage from './components/Content/DiscoverPage';
 import CategoryComponent from './components/category/CategoryComponent';
+import AddProductComponent from './components/product/AddProductComponent';
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
 <Route path="/contact" element={ <Contact /> } />
 <Route path="/about" element={ <AboutComponent /> } />
 <Route path="/category" element={ <CategoryComponent /> } />
+<Route path="/product" element={ <AddProductComponent /> } />
+
 
 <Route path="/mission" element={<Mission />} /> 
 <Route path="/vision" element={<Vision />} /> 

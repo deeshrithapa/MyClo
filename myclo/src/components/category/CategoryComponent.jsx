@@ -3,7 +3,6 @@ import axiosInstance from "../../Config/axiosConfig";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 const CategoryComponent = () => {
   const [categories, setCategories] = useState([]);
@@ -16,45 +15,56 @@ const CategoryComponent = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axiosInstance.get("/api/category/all");
-      // console.log(response);
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.get("/api/category/all", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
+      toast.error("Failed to fetch categories");
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // const name = e.target.name;
-    // const value = e.target.value;
     setNewCategory({ ...newCategory, [name]: value });
   };
-
-  console.log(newCategory);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem("token");
       if (editingCategory) {
         const response = await axiosInstance.patch(
           `/api/category/update/${editingCategory._id}`,
-          newCategory
+          newCategory,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
         );
         toast.success(response.data.msg);
         setEditingCategory(null);
       } else {
         const response = await axiosInstance.post(
           "/api/category/create",
-          newCategory
+          newCategory,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
         );
         toast.success(response.data.msg);
       }
       setNewCategory({ name: "", description: "" });
       fetchCategories();
     } catch (error) {
-      console.log(error.response);
-      toast.error(error.response.data.msg);
+      toast.error(error.response?.data?.msg || "An error occurred");
     }
   };
 
@@ -65,22 +75,19 @@ const CategoryComponent = () => {
 
   const handleDelete = async (id) => {
     try {
-      const token=localStorage.getItem("token");
-      const response = await axios.delete(
-        `http://localhost:5000/api/category/delete/${id}`,
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.delete(
+        `/api/category/delete/${id}`,
         {
           headers: {
-            Authorization: token,
-            // if Bearer is not present in your token
-            // Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
       toast.success(response.data.msg);
       fetchCategories();
     } catch (error) {
-      console.error("Error deleting category:", error);
-      toast.error(error.response.data.msg);
+      toast.error(error.response?.data?.msg || "An error occurred");
     }
   };
 
@@ -90,9 +97,7 @@ const CategoryComponent = () => {
       <form onSubmit={handleSubmit} className="mb-4">
         <ToastContainer />
         <div className="flex flex-col mb-2">
-          <label htmlFor="name" className="mb-1">
-            Category Name
-          </label>
+          <label htmlFor="name" className="mb-1">Category Name</label>
           <input
             type="text"
             name="name"
@@ -104,9 +109,7 @@ const CategoryComponent = () => {
           />
         </div>
         <div className="flex flex-col mb-2">
-          <label htmlFor="description" className="mb-1">
-            Category Description
-          </label>
+          <label htmlFor="description" className="mb-1">Category Description</label>
           <textarea
             name="description"
             id="description"
@@ -132,7 +135,7 @@ const CategoryComponent = () => {
               className="flex justify-between items-center border-b border-gray-300 py-2"
             >
               <div>
-                <h3>{category.name}</h3>
+                <h3 className="font-semibold">{category.name}</h3>
                 <p>{category.description}</p>
               </div>
               <div>

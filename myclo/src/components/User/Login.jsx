@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // import {useDispatch} from "react-redux";
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const Login = () => {
   });
 
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state for button disabling
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,14 +30,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', formData);
       console.log(response.data);
-      // Redirect to profile page after successful login
-      navigate('/');
+
+      // Assuming response.data contains the token
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token); // Store the JWT token
+        navigate('/'); // Redirect to the home page after successful login
+      } else {
+        setError('Login failed, please try again.');
+      }
     } catch (error) {
-      setError(error.response ? error.response.data.message : 'An error occurred');
+      setError(error.response?.data?.msg || 'An error occurred');
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -55,6 +66,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+              required // Ensure input is required
             />
           </div>
           <div className="flex flex-col">
@@ -65,14 +77,16 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+              required // Ensure input is required
             />
           </div>
           <div className="text-center mt-8">
             <button 
               type="submit" 
               className="px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition-colors"
+              disabled={isSubmitting} // Disable button while submitting
             >
-              Login
+              {isSubmitting ? 'Logging in...' : 'Login'} // Change text when submitting
             </button>
           </div>
           {error && <div className="text-center text-red-500 mt-4">{error}</div>}
@@ -88,3 +102,5 @@ const Login = () => {
 };
 
 export default Login;
+
+
