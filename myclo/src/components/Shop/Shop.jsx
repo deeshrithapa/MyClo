@@ -1,72 +1,63 @@
-import React from 'react';
-import FilterComponent from '../Shop/FilterComponent';
-import CardComponent from '../Shop/CardComponent';
-import suit3 from '../../Img/size.jpg';
-import suit4 from '../../Img/cutom.jpg';
-import mission from '../../Img/mission.jpg';
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../../Config/axiosConfig';
+import FilterComponent from './FilterComponent'; // Adjust the import path as needed
+import CardComponent from './CardComponent'; // Adjust the import path as needed
 
-const productData = [
-    {
-      imgUrl: suit3,
-      title: 'Casual T-Shirt',
-      description: 'A  stylish t-shirt',
-      price: 'Rs.1200'
-    },
-    {
-        imgUrl: mission,
-        title: 'Skinny Jeans',
-      description: 'Slim-fit denim jeans',
-      price: 'Rs.1200'
-    },
-    {
-        imgUrl: suit4,
-        title: 'Floral Dress',
-      description: 'A feminine and flowy dress',
-      price: 'Rs.1200'
-    },
-    {
-        imgUrl: mission,
-        title: 'Leather Jacket',
-      description: 'A stylish and durable jacket',
-      price: 'Rs.1200'
-    },
-    {
-        imgUrl: mission,
-        title: 'Sneakers',
-      description: 'Comfortable sneakers',
-      price: 'Rs.1200'
-    },
-    {
-        imgUrl: suit4,
-        title: 'Sunglasses',
-      description: ' protective sunglasses',
-      price: 'Rs.1200'
-    },
-    {
-        imgUrl: suit3,
-        title: 'Watch',
-      description: 'Elegant and functional watch',
-      price: 'Rs.1200'
-    },
-    {
-        imgUrl: suit4,
-        title: 'Hat',
-      description: 'Casual and cool hat',
-      price: 'Rs.1200'
-    },
-  ];
-  
-  const Shop = () => {
-    return (
-      <div className="flex p-4">
-        <div className="w-1/4 p-4">
-          <FilterComponent />
-        </div>
-        <div className="w-3/4 p-4">
-          <CardComponent data={productData} />
-        </div>
-      </div>
-    );
+const Shop = () => {
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filters, setFilters] = useState({
+    category: [],
+    size: [],
+    color: [],
+    priceRange: [0, 10000],
+  });
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axiosInstance.get('/api/products/all');
+        setProducts(response.data || []);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProducts([]);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const applyFilters = () => {
+      const filtered = products.filter((product) => {
+        const withinPriceRange =
+          product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
+        const matchesCategory = filters.category.length === 0 || filters.category.includes(product.category._id);
+        const matchesSize = filters.size.length === 0 || product.sizes.some(size => filters.size.includes(size._id));
+        const matchesColor = filters.color.length === 0 || product.colors.some(color => filters.color.includes(color._id));
+
+        return withinPriceRange && matchesCategory && matchesSize && matchesColor;
+      });
+      setFilteredProducts(filtered);
+    };
+
+    applyFilters();
+  }, [products, filters]);
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
   };
-  
-  export default Shop;
+
+  return (
+    <div className="flex p-4">
+      <div className="w-1/4 p-4">
+        <FilterComponent onFilterChange={handleFilterChange} />
+      </div>
+      <div className="w-3/4 p-4">
+        <CardComponent data={filteredProducts} />
+      </div>
+    </div>
+  );
+};
+
+export default Shop;

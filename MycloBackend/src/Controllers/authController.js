@@ -79,6 +79,7 @@ const loginUser = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        role: user.role, // Include the role in the payload
       },
     };
 
@@ -88,7 +89,11 @@ const loginUser = async (req, res) => {
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ msg: "User Logged-In successfully", token:`Bearer ${token}`, userDetails: user });
+        res.json({
+          msg: "User Logged-In successfully",
+          token: `Bearer ${token}`,
+          userDetails: user,
+        });
       }
     );
   } catch (err) {
@@ -96,6 +101,7 @@ const loginUser = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
 
 module.exports = {
   registerUser,

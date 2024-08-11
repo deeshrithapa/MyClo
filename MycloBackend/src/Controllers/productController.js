@@ -6,14 +6,15 @@ const sendErrorResponse = (res, error) => {
 };
 
 const createProduct = async (req, res) => {
-  const { name, price, description } = req.body;
+  const { name, price, description, category } = req.body;
   const productImage = req.file ? `${domain}/uploads/products/${req.file.filename}` : null;
 
   const newProduct = new Product({
     name,
     price,
     description,
-    productImage
+    productImage,
+    category,  // Include the category field
   });
 
   try {
@@ -26,11 +27,12 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, description } = req.body;
+    const { name, price, description, category } = req.body;
     let updateData = {
       name,
       price,
-      description
+      description,
+      category,  // Include the category field
     };
 
     if (req.file) {
@@ -38,7 +40,7 @@ const updateProduct = async (req, res) => {
     }
 
     const product = await Product.findByIdAndUpdate(req.params.id, updateData, {
-      new: true
+      new: true,
     });
 
     if (!product) {
@@ -48,12 +50,13 @@ const updateProduct = async (req, res) => {
     res.status(200).json({
       msg: 'Product updated successfully',
       product,
-      success: true
+      success: true,
     });
   } catch (error) {
     sendErrorResponse(res, error);
   }
 };
+
 
 const deleteProduct = async (req, res) => {
   try {
@@ -69,9 +72,18 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find().populate('category').populate('colors').populate('sizes');
+    res.status(200).json(products);
+  } catch (error) {
+    sendErrorResponse(res, error);
+  }
+};
+
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate('category').populate('colors').populate('sizes');
 
     if (!product) {
       return res.status(404).json({ msg: 'Product not found' });
@@ -83,13 +95,5 @@ const getProductById = async (req, res) => {
   }
 };
 
-const getAllProducts = async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.status(200).json(products);
-  } catch (error) {
-    sendErrorResponse(res, error);
-  }
-};
 
 module.exports = { createProduct, updateProduct, deleteProduct, getProductById, getAllProducts };

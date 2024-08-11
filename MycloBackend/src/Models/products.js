@@ -26,6 +26,11 @@ const Product = mongoose.model('Product', new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Size',
   }],
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',  // Reference to the Category model
+    required: true,
+  },
 }));
 
 module.exports = Product;

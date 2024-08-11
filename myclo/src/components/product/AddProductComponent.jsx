@@ -9,7 +9,7 @@ const AddProductComponent = () => {
     category: "",
     name: "",
     description: "",
-    price: "", // Add price to state
+    price: "",
     productImage: null,
   });
 
@@ -29,24 +29,24 @@ const AddProductComponent = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axiosInstance.get("/api/category/all");
-        const categories = response.data.categories || [];
-        setCategories(categories);
+  const fetchCategories = async () => {
+    try {
+      const response = await axiosInstance.get("/api/category/all");
+      const categories = response.data.categories || [];
+      setCategories(categories);
 
-        if (categories.length > 0) {
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            category: categories[0]._id,
-          }));
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
+      if (categories.length > 0) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          category: categories[0]._id,
+        }));
       }
-    };
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchCategories();
     fetchProducts();
   }, []);
@@ -73,7 +73,7 @@ const AddProductComponent = () => {
     data.append("category", formData.category);
     data.append("name", formData.name);
     data.append("description", formData.description);
-    data.append("price", formData.price); // Ensure price is included
+    data.append("price", formData.price);
     if (formData.productImage) {
       data.append("productImage", formData.productImage);
     }
@@ -100,14 +100,14 @@ const AddProductComponent = () => {
             },
           }
         );
-        toast.success(response.data.msg);
+        toast.success(response.data.message);  // Adjusted message key
       }
 
       setFormData({
         category: categories.length > 0 ? categories[0]._id : "",
         name: "",
         description: "",
-        price: "", // Reset price field
+        price: "",
         productImage: null,
       });
       setIsEditing(false);
@@ -125,7 +125,7 @@ const AddProductComponent = () => {
       category: product.category,
       name: product.name,
       description: product.description,
-      price: product.price, // Set price for editing
+      price: product.price,
       productImage: null,
     });
     setIsEditing(true);
@@ -246,42 +246,54 @@ const AddProductComponent = () => {
                       Name
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Price
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {products.map((product) => (
-                    <tr key={product._id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        <img
-                          src={product.productImage} // Assuming `productImage` contains the URL of the product image
-                          alt={product.name}
-                          className="w-16 h-16 object-cover rounded"
-                        />
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {categories.find((cat) => cat._id === product.category)?.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {product.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button
-                          onClick={() => handleEdit(product)}
-                          className="text-blue-600 hover:text-blue-900 mr-4"
-                        >
-                          <AiFillEdit />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(product._id)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          <AiFillDelete />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {products.map((product) => {
+                    const category = categories.find(
+                      (cat) => cat._id === product.category
+                    );
+                    const categoryName = category ? category.name : "Unknown";
+                    return (
+                      <tr key={product._id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          <img
+                            src={product.productImage}
+                            alt={product.name}
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {categoryName}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {product.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          ${product.price}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <button
+                            onClick={() => handleEdit(product)}
+                            className="text-blue-600 hover:text-blue-900 mr-4"
+                          >
+                            <AiFillEdit />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(product._id)}
+                            className="text-red-600 hover:text-red-900"
+                          >
+                            <AiFillDelete />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             ) : (

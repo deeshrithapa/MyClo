@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import {useDispatch} from "react-redux";
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from 'jwt-decode';
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ const Login = () => {
   });
 
   const [error, setError] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // New state for button disabling
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,22 +34,34 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', formData);
-      console.log(response.data);
-
-      // Assuming response.data contains the token
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token); // Store the JWT token
-        navigate('/'); // Redirect to the home page after successful login
+      const { token, userDetails } = response.data;
+  
+      // Decode JWT to get user role
+      const decodedToken = jwtDecode(token.split(' ')[1]); // Remove "Bearer " from token
+      const userRole = decodedToken.user.role;
+  
+      if (token) {
+        localStorage.setItem('token', token);
+  
+        // Redirect based on role
+        if (userRole === 'admin') {
+          navigate('/discover');
+        } else if (userRole === 'user') {
+          navigate('/contact');
+        } else {
+          navigate('/login'); // Redirect to an error page if role is not recognized
+        }
       } else {
         setError('Login failed, please try again.');
       }
     } catch (error) {
       setError(error.response?.data?.msg || 'An error occurred');
-      console.error(error);
+      console.error("Login Error:", error);
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
+  
 
   return (
     <div 
@@ -66,7 +79,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
-              required // Ensure input is required
+              required
             />
           </div>
           <div className="flex flex-col">
@@ -77,16 +90,16 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
-              required // Ensure input is required
+              required
             />
           </div>
           <div className="text-center mt-8">
             <button 
               type="submit" 
               className="px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition-colors"
-              disabled={isSubmitting} // Disable button while submitting
+              disabled={isSubmitting}
             >
-              {isSubmitting ? 'Logging in...' : 'Login'} // Change text when submitting
+              {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
           </div>
           {error && <div className="text-center text-red-500 mt-4">{error}</div>}
@@ -102,5 +115,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

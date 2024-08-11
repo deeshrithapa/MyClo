@@ -30,6 +30,8 @@ function App() {
 <Route path="/about" element={ <AboutComponent /> } />
 <Route path="/category" element={ <CategoryComponent /> } />
 <Route path="/product" element={ <AddProductComponent /> } />
+<Route path="/landing" element={ <Landing /> } />
+
 
 
 <Route path="/mission" element={<Mission />} /> 
