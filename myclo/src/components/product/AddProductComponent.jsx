@@ -100,7 +100,7 @@ const AddProductComponent = () => {
             },
           }
         );
-        toast.success(response.data.message);  // Adjusted message key
+        toast.success(response.data.message);
       }
 
       setFormData({
@@ -144,7 +144,7 @@ const AddProductComponent = () => {
   };
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="container mx-auto p-8 min-h-screen" style={{ backgroundColor: '#EEE9DD'}}>
       <div className="flex space-x-8">
         <form
           onSubmit={handleSubmit}
@@ -231,7 +231,7 @@ const AddProductComponent = () => {
 
         {/* Product List */}
         <div className="w-1/2 bg-white rounded-lg shadow-lg flex-grow flex flex-col">
-          <div className="overflow-y-auto flex-grow">
+        <div className="overflow-y-auto flex-grow" style={{ maxHeight: "480px" }}>
             {products.length > 0 ? (
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
@@ -246,6 +246,9 @@ const AddProductComponent = () => {
                       Name
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Description
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Price
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -254,47 +257,45 @@ const AddProductComponent = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {products.map((product) => {
-                    const category = categories.find(
-                      (cat) => cat._id === product.category
-                    );
-                    const categoryName = category ? category.name : "Unknown";
-                    return (
-                      <tr key={product._id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          <img
-                            src={product.productImage}
-                            alt={product.name}
-                            className="w-16 h-16 object-cover rounded"
-                          />
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {categoryName}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {product.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          ${product.price}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <button
-                            onClick={() => handleEdit(product)}
-                            className="text-blue-600 hover:text-blue-900 mr-4"
-                          >
-                            <AiFillEdit />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(product._id)}
-                            className="text-red-600 hover:text-red-900"
-                          >
-                            <AiFillDelete />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
+  {products.map((product) => (
+    <tr key={product._id}>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        <img
+          src={product.productImage}
+          alt={product.name}
+          className="w-16 h-16 object-cover rounded"
+        />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        {product.category && product.category.name ? product.category.name : "Unknown"}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {product.name}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {product.description}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        ${product.price}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+        <button
+          onClick={() => handleEdit(product)}
+          className="text-blue-600 hover:text-blue-900 mr-4"
+        >
+          <AiFillEdit />
+        </button>
+        <button
+          onClick={() => handleDelete(product._id)}
+          className="text-red-600 hover:text-red-900"
+        >
+          <AiFillDelete />
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
               </table>
             ) : (
               <div className="p-4 text-gray-500">No products available</div>

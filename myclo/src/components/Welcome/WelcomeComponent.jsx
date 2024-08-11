@@ -12,8 +12,11 @@ import saleImage from '../../Img/sale.jpg';
 import sizeNewImage from '../../Img/suit5.jpg';
 import saleNewImage from '../../Img/suit6.jpg';
 import colorNewImage from '../../Img/suit7.jpg';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const WelcomeComponent = () => {
+  const navigate = useNavigate(); // Initialize navigate function
+
   const settings = {
     dots: false,
     infinite: true,
@@ -34,6 +37,7 @@ const WelcomeComponent = () => {
           <h1 className="text-4xl font-bold mb-2">MyClo</h1>
           <h2 className="text-xl mb-4">Where Your Style Meets Perfection and Every Fit Tells a Story —Your Closet's New Best Friend</h2>
           <button
+            onClick={() => navigate('/shop')} // Use navigate to redirect
             className="px-6 py-3 bg-[#B19A9A] text-white rounded-full shadow-lg hover:bg-opacity-90 transition"
           >
             Shop Now
@@ -88,6 +92,7 @@ const WelcomeComponent = () => {
             Elevate your wardrobe with MyClo's custom clothing during our Summer Sale!
           </p>
           <button
+            onClick={() => navigate('/shop')} // Use navigate to redirect
             className="mt-6 px-6 py-3 text-white rounded-full shadow-lg hover:bg-opacity-90 transition"
             style={{ backgroundColor: '#B19A9A' }}
           >

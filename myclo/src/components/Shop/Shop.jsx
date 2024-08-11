@@ -49,7 +49,7 @@ const Shop = () => {
   };
 
   return (
-    <div className="flex p-4">
+    <div className="flex p-4" style={{ backgroundColor: '#EEE9DD'}}>
       <div className="w-1/4 p-4">
         <FilterComponent onFilterChange={handleFilterChange} />
       </div>

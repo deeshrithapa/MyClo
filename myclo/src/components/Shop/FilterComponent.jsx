@@ -34,7 +34,7 @@ const FilterComponent = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="border-2 rounded-lg p-4" style={{ borderColor: '#EEE9DD', color: '#635353' }}>
+    <div className="border-2 rounded-lg p-4 font-bold w-60" style={{ borderColor: '#B19A9A', color: '#A28D8D',backgroundColor: '#C8B8A2' }}>
       <h2 className="text-lg font-bold mb-4">Filters</h2>
       <div className="mb-4">
         <h3 className="font-bold mb-2">Category</h3>
