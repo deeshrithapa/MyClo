@@ -1,15 +1,22 @@
 import React, { useState, useContext } from 'react';
 import ToastNotification from '../notification/ToastNotification'; // Adjust path as needed
 import CartContext from '../context/CartContext'; // Adjust path as needed
+import { useRole } from '../context/RoleContext'; // Adjust path as needed
 
 const CardComponent = (props) => {
   const { addToCart } = useContext(CartContext);
+  const { role } = useRole();
   const [toastMessage, setToastMessage] = useState('');
 
   const handleAddToCart = (product) => {
-    addToCart(product); // Add full product details to the cart
-    setToastMessage('Added to cart successfully!'); // Show toast message
-    setTimeout(() => setToastMessage(''), 3000); // Hide toast after 3 seconds
+    if (role === 'user') {
+      addToCart(product);
+      setToastMessage('Added to cart successfully!');
+      setTimeout(() => setToastMessage(''), 3000);
+    } else {
+      setToastMessage('You must be logged in as a user to add items to the cart.');
+      setTimeout(() => setToastMessage(''), 3000);
+    }
   };
 
   return (
@@ -29,8 +36,13 @@ const CardComponent = (props) => {
             </div>
             <div className="px-6 py-4 text-left">
               <button
-                className="bg-[#B19A9A] text-white px-5 py-2 text-center hover:bg-[#a17d7d] transition"
+                className={`px-5 py-2 text-center transition ${
+                  role === 'user'
+                    ? 'bg-[#B19A9A] text-white hover:bg-[#a17d7d]'
+                    : 'bg-gray-400 text-white cursor-not-allowed'
+                }`}
                 onClick={() => handleAddToCart(product)}
+                disabled={role !== 'user'} // Disable button if not 'user'
               >
                 Add to Cart
               </button>

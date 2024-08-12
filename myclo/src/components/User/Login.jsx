@@ -4,7 +4,8 @@ import axios from 'axios';
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from 'jwt-decode';
-
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/auth/authSlice'; // Adjust the path as needed
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const img = new Image();
@@ -34,7 +36,7 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', formData);
-      const { token, userDetails } = response.data;
+      const { token } = response.data;
   
       // Decode JWT to get user role
       const decodedToken = jwtDecode(token.split(' ')[1]); // Remove "Bearer " from token
@@ -42,6 +44,9 @@ const Login = () => {
   
       if (token) {
         localStorage.setItem('token', token);
+
+        // Dispatch login action
+        dispatch(login({ role: userRole, token }));
   
         // Redirect based on role
         if (userRole === 'admin') {
@@ -61,7 +66,6 @@ const Login = () => {
       setIsSubmitting(false);
     }
   }
-  
 
   return (
     <div 

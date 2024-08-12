@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaShoppingCart, FaSearch, FaUser } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaShoppingCart, FaSearch, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../features/auth/authSlice';
 
 function NavbarComponent() {
   const [isOpen, setIsOpen] = useState(false);
+  const userRole = useSelector((state) => state.auth.userRole);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login'); // Redirect to login after logout
+  };
 
   return (
     <nav className="bg-[#C8B8A2] shadow-lg">
@@ -12,10 +23,15 @@ function NavbarComponent() {
           {/* Left side links */}
           <div className="flex space-x-4 flex-1">
             <Link to="/shop" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Shop</Link>
-            <Link to="/discover" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Discover</Link>
-            <Link to="/category" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Category</Link>
-            <Link to="/product" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Product</Link>
-
+            {userRole !== 'admin' && (
+              <Link to="/discover" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Discover</Link>
+            )}
+            {userRole === 'admin' && (
+              <>
+                <Link to="/category" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Category</Link>
+                <Link to="/product" className="hidden md:block text-white text-lg font-semibold hover:text-gray-200 transition duration-300">Product</Link>
+              </>
+            )}
           </div>
           
           {/* Center logo */}
@@ -25,15 +41,23 @@ function NavbarComponent() {
           
           {/* Right side icons */}
           <div className="hidden md:flex space-x-4 items-center flex-1 justify-end">
-            <Link to="/cart" className="text-white text-lg hover:text-gray-200 transition duration-300">
-              <FaShoppingCart />
-            </Link>
             <Link to="/search" className="text-white text-lg hover:text-gray-200 transition duration-300">
               <FaSearch />
             </Link>
-            <Link to="/profile" className="text-white text-lg hover:text-gray-200 transition duration-300">
-              <FaUser />
-            </Link>
+            {isAuthenticated && userRole !== 'admin' && (
+              <Link to="/cart" className="text-white text-lg hover:text-gray-200 transition duration-300">
+                <FaShoppingCart />
+              </Link>
+            )}
+            {isAuthenticated ? (
+              <button onClick={handleLogout} className="text-white text-lg hover:text-gray-200 transition duration-300">
+                <FaSignOutAlt />
+              </button>
+            ) : (
+              <Link to="/profile" className="text-white text-lg hover:text-gray-200 transition duration-300">
+                <FaUser />
+              </Link>
+            )}
           </div>
           
           {/* Mobile menu button */}
@@ -51,10 +75,24 @@ function NavbarComponent() {
         <div className="md:hidden">
           <ul className="flex flex-col items-center bg-[#C8B8A2]">
             <li><Link to="/shop" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Shop</Link></li>
-            <li><Link to="/discover" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Discover</Link></li>
-            <li><Link to="/cart" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Cart</Link></li>
+            {userRole !== 'admin' && (
+              <li><Link to="/discover" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Discover</Link></li>
+            )}
             <li><Link to="/search" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Search</Link></li>
-            <li><Link to="/profile" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Profile</Link></li>
+            {isAuthenticated && userRole !== 'admin' && (
+              <li><Link to="/cart" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Cart</Link></li>
+            )}
+            {userRole === 'admin' && (
+              <>
+                <li><Link to="/category" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Category</Link></li>
+                <li><Link to="/product" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Product</Link></li>
+              </>
+            )}
+            {isAuthenticated ? (
+              <li><button onClick={handleLogout} className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Logout</button></li>
+            ) : (
+              <li><Link to="/profile" className="block text-sm px-2 py-4 text-white font-semibold hover:bg-gray-200 transition duration-300">Profile</Link></li>
+            )}
           </ul>
         </div>
       )}
