@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import axiosInstance from '../../Config/axiosConfig';
 
 const FilterComponent = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     category: [],
     size: [],
     color: [],
-    priceRange: [0, 10000], // Example price range, adjust as needed
+    priceRange: [0, 10000],
   });
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axiosInstance.get('/api/category/all');
+        setCategories(response.data.categories || []);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setCategories([]);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     onFilterChange(filters);
@@ -38,16 +54,16 @@ const FilterComponent = ({ onFilterChange }) => {
       <h2 className="text-lg font-bold mb-4">Filters</h2>
       <div className="mb-4">
         <h3 className="font-bold mb-2">Category</h3>
-        {['tops', 'bottoms', 'dresses', 'outerwear'].map((category) => (
-          <div key={category}>
+        {categories.map((category) => (
+          <div key={category._id}>
             <input
               type="checkbox"
-              id={category}
+              id={category.name}
               name="category"
-              value={category}
+              value={category._id}
               onChange={handleCheckboxChange}
             />
-            <label htmlFor={category} className="ml-2">{category.charAt(0).toUpperCase() + category.slice(1)}</label>
+            <label htmlFor={category.name} className="ml-2">{category.name}</label>
           </div>
         ))}
       </div>

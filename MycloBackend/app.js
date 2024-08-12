@@ -35,6 +35,8 @@ app.use(cors());
 
  connectDB()
 
+ 
+
 // Use routes
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use('/api/profile', profileRoutes);

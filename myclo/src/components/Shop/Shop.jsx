@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../Config/axiosConfig';
-import FilterComponent from './FilterComponent'; // Adjust the import path as needed
-import CardComponent from './CardComponent'; // Adjust the import path as needed
+import FilterComponent from './FilterComponent'; 
+import CardComponent from './CardComponent'; 
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -12,6 +12,7 @@ const Shop = () => {
     color: [],
     priceRange: [0, 10000],
   });
+  const [error, setError] = useState(null); // For handling errors
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -20,12 +21,13 @@ const Shop = () => {
         setProducts(response.data || []);
       } catch (error) {
         console.error('Error fetching products:', error);
-        setProducts([]);
+        setError('Failed to load products. Please try again later.');
+        setProducts([]); // Clear products on error
       }
     };
 
     fetchProducts();
-  }, []);
+  }, []); // Empty dependency array ensures this runs once on component mount
 
   useEffect(() => {
     const applyFilters = () => {
@@ -42,7 +44,7 @@ const Shop = () => {
     };
 
     applyFilters();
-  }, [products, filters]);
+  }, [products, filters]); // Dependencies include both products and filters
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
@@ -54,7 +56,11 @@ const Shop = () => {
         <FilterComponent onFilterChange={handleFilterChange} />
       </div>
       <div className="w-3/4 p-4">
-        <CardComponent data={filteredProducts} />
+        {error ? (
+          <div className="text-red-500">{error}</div>
+        ) : (
+          <CardComponent data={filteredProducts} />
+        )}
       </div>
     </div>
   );

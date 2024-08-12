@@ -40,10 +40,12 @@ const Login = () => {
   
       // Decode JWT to get user role
       const decodedToken = jwtDecode(token.split(' ')[1]); // Remove "Bearer " from token
-      const userRole = decodedToken.user.role;
+      const userRole = response.data.userDetails.role;
   
       if (token) {
         localStorage.setItem('token', token);
+        localStorage.setItem('role', userRole);
+
 
         // Dispatch login action
         dispatch(login({ role: userRole, token }));

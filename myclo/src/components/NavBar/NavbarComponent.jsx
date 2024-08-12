@@ -13,6 +13,8 @@ function NavbarComponent() {
 
   const handleLogout = () => {
     dispatch(logout());
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
     navigate('/login'); // Redirect to login after logout
   };
 

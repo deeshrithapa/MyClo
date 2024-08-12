@@ -24,8 +24,8 @@ const CartComponent = () => {
                     <div className="font-bold">{product.name}</div>
                     <p>{product.description}</p>
                     <p>Price: Rs.{product.price}</p>
-                    <p>Option: {product.size?.name || 'N/A'}</p>
-                    <p>Color: {product.color?.name || 'N/A'}</p>
+                    <p>Size: {product.size || 'N/A'}</p> {/* Display Size */}
+                    <p>Color: {product.color || 'N/A'}</p> {/* Display Color */}
                     <p>Category: {product.category?.name || 'N/A'}</p>
                     <div className="flex items-center mt-2">
                       <button

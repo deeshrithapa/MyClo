@@ -19,7 +19,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.userRole = null;
       state.token = null;
-      localStorage.removeItem('token');
+   
     },
     setToken(state, action) {
       state.token = action.payload.token;

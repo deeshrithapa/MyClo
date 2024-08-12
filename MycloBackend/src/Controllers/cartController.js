@@ -24,7 +24,7 @@ const createOrUpdateCart = async (req, res) => {
   try {
     const { items } = req.body;
     let cart = await Cart.findOne({ user: req.user.id });
-    
+
     if (cart) {
       cart.items = items;
       cart = await cart.save();
