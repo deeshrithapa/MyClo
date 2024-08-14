@@ -1,69 +1,49 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+// import React, { createContext, useContext, useReducer, useEffect } from 'react';
+// import axios from 'axios';
+// import { toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
-const CartContext = createContext();
+// const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const [userRole, setUserRole] = useState(null);
+// const cartReducer = (state, action) => {
+//   switch (action.type) {
+//     case 'FETCH_CART':
+//       return { ...state, items: action.payload };
+//     // Other cases remain the same
+//     default:
+//       return state;
+//   }
+// };
 
-  useEffect(() => {
-    fetchCart();
-    // Retrieve role from localStorage
-    setUserRole(localStorage.getItem('role'));
-  }, []);
+// export const CartProvider = ({ children }) => {
+//   const [state, dispatch] = useReducer(cartReducer, { items: [] });
 
-  const fetchCart = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No token found, please log in.');
-        return;
-      }
+//   useEffect(() => {
+//     fetchCart();
+//   }, []);
 
-      const response = await axios.get('http://localhost:5000/api/cart', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      setCart(response.data.cart.items);
-    } catch (error) {
-      console.error('Error fetching cart:', error);
-    }
-  };
+//   const fetchCart = async () => {
+//     const token = localStorage.getItem('token');
+//     if (!token) {
+//       console.error('No token found, please log in.');
+//       return;
+//     }
 
-  const addToCart = async (productId, quantity, size, color) => {
-    if (userRole !== 'user') {
-      console.error('Only users can add items to the cart.');
-      return;
-    }
+//     try {
+//       const response = await axios.get('http://localhost:5000/api/cart/', {
+//         headers: { Authorization: token },
+//       });
+//       dispatch({ type: 'FETCH_CART', payload: response.data.cart.items });
+//     } catch (error) {
+//       console.error('Error fetching cart:', error.response?.data?.msg || error.message);
+//     }
+//   };
 
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No token found, please log in.');
-        return;
-      }
+//   return (
+//     <CartContext.Provider value={{ cart: state.items }}>
+//       {children}
+//     </CartContext.Provider>
+//   );
+// };
 
-      const response = await axios.post('http://localhost:5000/api/cart/add', { productId, quantity, size, color }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      console.log('Cart updated:', response.data.cart);
-      fetchCart(); // Refresh the cart after adding an item
-    } catch (error) {
-      console.error('Error adding item to cart:', error);
-    }
-  };
-
-  return (
-    <CartContext.Provider value={{ cart, fetchCart, addToCart }}>
-      {children}
-    </CartContext.Provider>
-  );
-};
-
-export const useCart = () => useContext(CartContext);
-
-export default CartContext;
+// export const useCart = () => useContext(CartContext);

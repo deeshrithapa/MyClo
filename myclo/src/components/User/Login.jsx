@@ -36,17 +36,16 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', formData);
-      const { token } = response.data;
-  
-      // Decode JWT to get user role
-      const decodedToken = jwtDecode(token.split(' ')[1]); // Remove "Bearer " from token
-      const userRole = response.data.userDetails.role;
+      const { token, userDetails } = response.data;
+    
+      const userId = userDetails._id;  // Extracting the userId from userDetails
+      const userRole = userDetails.role; // Extracting the role from userDetails
   
       if (token) {
         localStorage.setItem('token', token);
         localStorage.setItem('role', userRole);
-
-
+        localStorage.setItem('userId', userId); // Store userId in localStorage
+  
         // Dispatch login action
         dispatch(login({ role: userRole, token }));
   
@@ -67,7 +66,9 @@ const Login = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
+  
+  
 
   return (
     <div 

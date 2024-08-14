@@ -67,36 +67,8 @@ const FilterComponent = ({ onFilterChange }) => {
           </div>
         ))}
       </div>
-      <div className="mb-4">
-        <h3 className="font-bold mb-2">Size</h3>
-        {['small', 'medium', 'large', 'xlarge'].map((size) => (
-          <div key={size}>
-            <input
-              type="checkbox"
-              id={size}
-              name="size"
-              value={size}
-              onChange={handleCheckboxChange}
-            />
-            <label htmlFor={size} className="ml-2">{size.toUpperCase()}</label>
-          </div>
-        ))}
-      </div>
-      <div className="mb-4">
-        <h3 className="font-bold mb-2">Color</h3>
-        {['black', 'blue', 'pink', 'brown'].map((color) => (
-          <div key={color}>
-            <input
-              type="checkbox"
-              id={color}
-              name="color"
-              value={color}
-              onChange={handleCheckboxChange}
-            />
-            <label htmlFor={color} className="ml-2">{color.charAt(0).toUpperCase() + color.slice(1)}</label>
-          </div>
-        ))}
-      </div>
+    
+    
       <div className="mb-4">
         <h3 className="font-bold mb-2">Price Range</h3>
         <input

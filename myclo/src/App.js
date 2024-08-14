@@ -16,7 +16,9 @@ import DiscoverPage from './components/Content/DiscoverPage';
 import CategoryComponent from './components/category/CategoryComponent';
 import AddProductComponent from './components/product/AddProductComponent';
 import CartComponent from './components/cart/CartComponent';
-import { CartProvider } from './components/context/CartContext'; // Ensure correct path
+// import { CartProvider } from './components/context/CartContext'; // Ensure correct path
+import { CartProvider } from './components/context/CartContextReducer'; // Ensure correct path
+
 import { AuthProvider } from './components/context/AuthContext'; // Ensure correct path
 import { RoleProvider } from './components/context/RoleContext'; // Ensure correct path
 

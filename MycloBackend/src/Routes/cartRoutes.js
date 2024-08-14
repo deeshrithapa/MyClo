@@ -1,46 +1,48 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Cart = require('../Models/cart');
-const authMiddleware = require('../Middleware/authMiddleware');
+const auth = require("../Middleware/authMiddleware");
+const {
+  getCartByUserId,
+  createNewCart,
+  deleteCartByUserId,
+  removeItemFromCart
+} = require("../Controllers/cartController");
 
-router.use(authMiddleware);
+/**
+ * @description To get the user's cart
+ * @api /api/cart
+ * @access Private
+ * @type GET
+ * @return response
+ */
+router.get("/:userId", auth, getCartByUserId);
 
-router.get('/', async (req, res) => {
-  try {
-    const cart = await Cart.findOne({ user: req.user.id }).populate('items.product');
-    if (!cart) {
-      return res.status(404).json({ msg: "Cart not found" });
-    }
-    res.status(200).json({ cart });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
-router.post('/add', async (req, res) => {
-  const { productId, quantity, size, color } = req.body;
-  const userId = req.user.id;
+/**
+ * @description To add items to the cart or update existing items
+ * @api /api/cart/add
+ * @access Private
+ * @type POST
+ * @return response
+ */
+router.post("/add", auth, createNewCart);
 
-  try {
-    let cart = await Cart.findOne({ user: userId });
+/**
+ * @description To delete the user's cart
+ * @api /api/cart/delete
+ * @access Private
+ * @type DELETE
+ * @return response
+ */
+router.delete("/delete", auth, deleteCartByUserId);
 
-    if (!cart) {
-      cart = new Cart({ user: userId, items: [] });
-    }
-
-    const existingItemIndex = cart.items.findIndex(item => item.product.toString() === productId && item.size === size && item.color === color);
-
-    if (existingItemIndex > -1) {
-      cart.items[existingItemIndex].quantity += quantity;
-    } else {
-      cart.items.push({ product: productId, quantity, size, color });
-    }
-
-    await cart.save();
-    res.status(200).json({ cart });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+/**
+ * @description To remove a specific item from the cart
+ * @api /api/cart/remove
+ * @access Private
+ * @type DELETE
+ * @return response
+ */
+router.delete("/remove", auth, removeItemFromCart);
 
 module.exports = router;

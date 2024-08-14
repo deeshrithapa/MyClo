@@ -13,8 +13,8 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem("token");
     console.log("Token:", token); // Check if the token is correct
     if (token) {
-      config.headers["Authorization"] = token; 
-      // config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`; 
+      // Ensure that the Authorization header includes 'Bearer '
     }
     return config;
   },
