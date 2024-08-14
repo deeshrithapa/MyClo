@@ -1,81 +1,42 @@
 const Order = require('../Models/order');
-const OrderItem = require('../Models/orderItem');
 
-// Helper function to send error responses
-const sendErrorResponse = (res, error) => {
-  res.status(500).json({ msg: error.message });
-};
-
-// Get all orders
-const getAllOrders = async (req, res) => {
+exports.placeOrder = async (req, res) => {
   try {
-    const orders = await Order.find().populate('user').populate('items');
-    res.status(200).json({ orders });
-  } catch (error) {
-    sendErrorResponse(res, error);
-  }
-};
+    const { contactInfo, shippingAddress } = req.body;
+    const order = new Order({
+      user: req.user.id,
+      cart: req.user.cart, // Assuming cart items are stored in user session or similar
+      contactInfo,
+      shippingAddress,
+      paymentMethod: 'cash'        
+    });
 
-// Get an order by ID
-const getOrderById = async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id).populate('user').populate('items');
-    if (!order) {
-      return res.status(404).json({ msg: "Order not found" });
-    }
-    res.status(200).json({ order });
-  } catch (error) {
-    sendErrorResponse(res, error);
-  }
-};
-
-// Create a new order
-const createOrder = async (req, res) => {
-  try {
-    const { user, status, totalPrice, items } = req.body;
-    const order = new Order({ user, status, totalPrice, items });
     await order.save();
-    res.status(201).json({ order });
+    res.status(201).json(order);
   } catch (error) {
-    sendErrorResponse(res, error);
+    console.error('Error placing order:', error);
+    res.status(500).json({ message: 'Error placing order' });
   }
 };
 
-// Update an order by ID
-const updateOrder = async (req, res) => {
+
+exports.completePurchase = async (req, res) => {
   try {
-    const { status, totalPrice, items } = req.body;
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      { status, totalPrice, items },
-      { new: true, runValidators: true }
-    ).populate('user').populate('items');
-    if (!order) {
-      return res.status(404).json({ msg: "Order not found" });
-    }
-    res.status(200).json({ order });
+    const { contactInfo, shippingAddress, cardDetails } = req.body;
+    // Assuming the order has already been placed and cardDetails are being used to process payment
+    // Here, you would typically integrate with a payment gateway
+    const order = new Order({
+      user: req.user.id,
+      cart: req.user.cart, // Assuming cart items are stored in user session or similar
+      contactInfo,
+      shippingAddress,
+      paymentMethod: 'card',
+      cardDetails
+    });
+    await order.save();
+    res.status(201).json(order);
   } catch (error) {
-    sendErrorResponse(res, error);
+    console.error('Error completing purchase:', error);
+    res.status(500).json({ message: 'Error completing purchase' });
   }
-};
-
-// Delete an order by ID
-const deleteOrder = async (req, res) => {
-  try {
-    const order = await Order.findByIdAndDelete(req.params.id);
-    if (!order) {
-      return res.status(404).json({ msg: "Order not found" });
-    }
-    res.status(200).json({ msg: "Order deleted successfully" });
-  } catch (error) {
-    sendErrorResponse(res, error);
-  }
-};
-
-module.exports = {
-  getAllOrders,
-  getOrderById,
-  createOrder,
-  updateOrder,
-  deleteOrder,
 };

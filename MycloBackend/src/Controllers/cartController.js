@@ -1,5 +1,5 @@
 const Cart = require('../Models/cart');
-const CartItem = require('../Models/cartItem');
+// const CartItem = require('../Models/cartItem');
 
 const sendErrorResponse = (res, error) => {
   res.status(500).json({ msg: error.message });

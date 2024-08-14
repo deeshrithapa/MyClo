@@ -16,6 +16,8 @@ import DiscoverPage from './components/Content/DiscoverPage';
 import CategoryComponent from './components/category/CategoryComponent';
 import AddProductComponent from './components/product/AddProductComponent';
 import CartComponent from './components/cart/CartComponent';
+import Checkout from './components/cart/Checkout';
+
 // import { CartProvider } from './components/context/CartContext'; // Ensure correct path
 import { CartProvider } from './components/context/CartContextReducer'; // Ensure correct path
 
@@ -45,6 +47,8 @@ function App() {
                   <Route path="/shop" element={<Shop />} />
                   <Route path="/discover" element={<DiscoverPage />} />
                   <Route path="/cart" element={<CartComponent />} />
+                  <Route path="/checkout" element={<Checkout />} />
+
                 </Routes>
               </main>
               <FooterComponent />

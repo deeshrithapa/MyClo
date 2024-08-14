@@ -8,6 +8,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
 
+
 const CardComponent = (props) => {
   const { addToCart } = useCart(); // Use the hook here
   const [toastMessage, setToastMessage] = useState('');

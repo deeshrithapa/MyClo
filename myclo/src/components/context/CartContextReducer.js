@@ -8,7 +8,7 @@ const CartContext = createContext();
 const cartReducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_CART':
-      return { ...state, items: action.payload };
+      return { ...state, items: action.payload.items, cartId: action.payload.cartId };
     case 'ADD_TO_CART':
       return { ...state, items: [...state.items, action.payload] };
     case 'REMOVE_FROM_CART':
@@ -29,7 +29,7 @@ const cartReducer = (state, action) => {
 };
 
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  const [state, dispatch] = useReducer(cartReducer, { items: [], cartId: null });
 
   const fetchCart = async () => {
     const token = localStorage.getItem('token');
@@ -43,7 +43,7 @@ export const CartProvider = ({ children }) => {
       const response = await axios.get(`http://localhost:5000/api/cart/${userId}`, {
         headers: { Authorization: token },
       });
-      dispatch({ type: 'FETCH_CART', payload: response.data.cart.items });
+      dispatch({ type: 'FETCH_CART', payload: { items: response.data.cart.items, cartId: response.data.cart.cartId } });
       toast.success('Cart loaded successfully');
     } catch (error) {
       toast.error(error.response?.data?.msg || 'Failed to load cart');
@@ -68,7 +68,7 @@ export const CartProvider = ({ children }) => {
         hem,
         vents,
       }, {
-        headers: { Authorization:token }
+        headers: { Authorization: token }
       });
 
       dispatch({ type: 'ADD_TO_CART', payload: response.data.cartItem });
@@ -120,7 +120,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart: state.items, addToCart, fetchCart, removeFromCart, updateCartItem }}>
+    <CartContext.Provider value={{ cart: state.items, cartId: state.cartId, addToCart, fetchCart, removeFromCart, updateCartItem }}>
       {children}
     </CartContext.Provider>
   );

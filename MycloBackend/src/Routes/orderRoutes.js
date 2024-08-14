@@ -1,11 +1,9 @@
 const express = require('express');
+const { placeOrder, completePurchase } = require('../Controllers/orderController');
+const authenticate = require('../Middleware/authMiddleware');
 const router = express.Router();
-const orderController = require('../Controllers/orderController');
 
-router.get('/', orderController.getAllOrders);
-router.get('/:id', orderController.getOrderById);
-router.post('/', orderController.createOrder);
-router.put('/:id', orderController.updateOrder);
-router.delete('/:id', orderController.deleteOrder);
+router.post('/place-order', authenticate, placeOrder);
+router.post('/complete-purchase', authenticate, completePurchase);
 
 module.exports = router;

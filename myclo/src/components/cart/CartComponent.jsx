@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
 import { useCart } from '../context/CartContextReducer';
+import { useNavigate } from 'react-router-dom';
+
 
 const Cart = () => {
   const { cart, fetchCart, removeFromCart } = useCart();
+  const navigate = useNavigate(); 
+
 
   useEffect(() => {
     console.log('Fetching cart...');
@@ -56,10 +60,14 @@ const Cart = () => {
           </div>
         ))}
         <div className="p-4 text-right">
-          <p className="text-lg font-semibold">Total: Rs. {totalPrice}</p>
-          <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4">
-            Checkout
-          </button>
+          <p className="text-lg font-semibold">Total: Rs. {totalPrice}</p>          
+      <button 
+        onClick={() => navigate('/checkout')} 
+        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4"
+      >
+        Checkout
+      </button>
+
         </div>
       </div>
     </div>
