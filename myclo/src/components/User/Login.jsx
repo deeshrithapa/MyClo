@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import loginImage from '../../Img/first.jpg'; // Adjust the path as needed
 import "react-toastify/dist/ReactToastify.css";
-import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/auth/authSlice'; // Adjust the path as needed
 
@@ -19,10 +18,14 @@ const Login = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const img = new Image();
-    img.src = loginImage;
-    img.onload = () => {
-      document.body.style.backgroundImage = `url(${loginImage})`;
+    // Set background image for the login page
+    document.body.style.backgroundImage = `url(${loginImage})`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+
+    // Clean up background image when the component unmounts
+    return () => {
+      document.body.style.backgroundImage = '';
     };
   }, []);
 
@@ -67,14 +70,9 @@ const Login = () => {
       setIsSubmitting(false);
     }
   };
-  
-  
 
   return (
-    <div 
-      className="flex items-center justify-center min-h-screen bg-cover bg-center" 
-      style={{ backgroundImage: `url(${loginImage})` }}
-    >
+    <div className="flex items-center justify-center min-h-screen bg-cover bg-center">
       <div className="bg-[#C8B8A2] bg-opacity-75 p-10 rounded shadow-md max-w-md w-full">
         <h2 className="text-3xl font-bold mb-8 text-center text-white">Login</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>

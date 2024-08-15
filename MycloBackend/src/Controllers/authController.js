@@ -91,7 +91,7 @@ const loginUser = async (req, res) => {
         if (err) throw err;
         res.json({
           msg: "User Logged-In successfully",
-          token: `Bearer ${token}`,
+          token: token,
           userDetails: user,
         });
       }

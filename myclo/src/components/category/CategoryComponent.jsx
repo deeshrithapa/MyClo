@@ -37,13 +37,15 @@ const CategoryComponent = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+      console.log("Token:", token); // Check if the token is present and correct
+
       if (editingCategory) {
         const response = await axiosInstance.patch(
           `/api/category/update/${editingCategory._id}`,
           newCategory,
           {
             headers: {
-              Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
           }
         );
@@ -55,7 +57,7 @@ const CategoryComponent = () => {
           newCategory,
           {
             headers: {
-              Authorization: `Bearer ${token}`
+               Authorization: `Bearer ${token}`
             }
           }
         );
@@ -80,7 +82,7 @@ const CategoryComponent = () => {
         `/api/category/delete/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: token
           }
         }
       );

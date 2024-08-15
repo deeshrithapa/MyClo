@@ -23,6 +23,7 @@ import { CartProvider } from './components/context/CartContextReducer'; // Ensur
 
 import { AuthProvider } from './components/context/AuthContext'; // Ensure correct path
 import { RoleProvider } from './components/context/RoleContext'; // Ensure correct path
+import ProductDetailsPage from './components/Shop/ProductDetailsPage';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
                   <Route path="/discover" element={<DiscoverPage />} />
                   <Route path="/cart" element={<CartComponent />} />
                   <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/product/:productId" element={<ProductDetailsPage />} />
 
                 </Routes>
               </main>

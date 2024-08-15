@@ -44,11 +44,11 @@ const Registration = () => {
   };
 
   return (
-    <div 
+    <div
       className={`flex items-center justify-center min-h-screen transition-opacity duration-500 ${bgImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-      style={{ 
-        backgroundImage: `url(${loginImage})`, 
-        backgroundSize: 'cover', 
+      style={{
+        backgroundImage: `url(${loginImage})`,
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundColor: '#C8B8A2', // Placeholder background color
       }}
@@ -59,69 +59,69 @@ const Registration = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
               <label className="mb-2 text-white">Full Name:</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-2 text-white">Address:</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-2 text-white">Date Of Birth:</label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 name="dob"
                 value={formData.dob}
                 onChange={handleChange}
-                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
                 style={{ colorScheme: 'dark' }} // This will change the calendar icon to white
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-2 text-white">Contact Number:</label>
-              <input 
-                type="tel" 
+              <input
+                type="tel"
                 name="contactNumber"
                 value={formData.contactNumber}
                 onChange={handleChange}
-                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-2 text-white">Email:</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-2 text-white">Password:</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" 
+                className="px-4 py-3 bg-[#C8B8A2] text-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
           </div>
           <div className="text-center mt-8">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition-colors"
             >
               Join Now

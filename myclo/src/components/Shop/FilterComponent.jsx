@@ -6,7 +6,7 @@ const FilterComponent = ({ onFilterChange }) => {
     category: [],
     size: [],
     color: [],
-    priceRange: [500, 5000],
+    priceRange: [5, 5000],
   });
   const [categories, setCategories] = useState([]);
 
@@ -56,7 +56,7 @@ const FilterComponent = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="border-2 rounded-lg p-4 font-bold w-60 border-[#B19A9A] text-[#A28D8D] bg-[#C8B8A2]">
+    <div className="border-2 rounded-lg p-4 font-bold w-60 border-[#B19A9A] text-[#9b8787] bg-[#e8dccc]">
       <h2 className="text-lg font-bold mb-4">Filters</h2>
       <div className="mb-4">
         <h3 className="font-bold mb-2">Category</h3>
@@ -81,7 +81,7 @@ const FilterComponent = ({ onFilterChange }) => {
           <input
             type="number"
             name="minPrice"
-            min="500"
+            min="50"
             max="5000"
             step="100"
             value={filters.priceRange[0]}
@@ -92,7 +92,7 @@ const FilterComponent = ({ onFilterChange }) => {
           <input
             type="number"
             name="maxPrice"
-            min="500"
+            min="50"
             max="5000"
             step="100"
             value={filters.priceRange[1]}

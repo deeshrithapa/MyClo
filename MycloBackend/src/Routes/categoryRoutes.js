@@ -17,7 +17,7 @@ const {
  * @return response
  */
 
-router.post("/create", auth, authorizeRole("admin"), addCategory);
+router.post("/create", auth, addCategory);
 
 /**
  * @description To get all categories
