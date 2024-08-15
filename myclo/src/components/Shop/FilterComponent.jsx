@@ -6,7 +6,7 @@ const FilterComponent = ({ onFilterChange }) => {
     category: [],
     size: [],
     color: [],
-    priceRange: [0, 10000],
+    priceRange: [500, 5000],
   });
   const [categories, setCategories] = useState([]);
 
@@ -42,15 +42,21 @@ const FilterComponent = ({ onFilterChange }) => {
   };
 
   const handlePriceRangeChange = (e) => {
-    const [min, max] = e.target.value.split(',').map(Number);
+    const { name, value } = e.target;
+    const newPriceRange = [...filters.priceRange];
+    if (name === 'minPrice') {
+      newPriceRange[0] = Number(value);
+    } else if (name === 'maxPrice') {
+      newPriceRange[1] = Number(value);
+    }
     setFilters((prev) => ({
       ...prev,
-      priceRange: [min, max],
+      priceRange: newPriceRange,
     }));
   };
 
   return (
-    <div className="border-2 rounded-lg p-4 font-bold w-60" style={{ borderColor: '#B19A9A', color: '#A28D8D',backgroundColor: '#C8B8A2' }}>
+    <div className="border-2 rounded-lg p-4 font-bold w-60 border-[#B19A9A] text-[#A28D8D] bg-[#C8B8A2]">
       <h2 className="text-lg font-bold mb-4">Filters</h2>
       <div className="mb-4">
         <h3 className="font-bold mb-2">Category</h3>
@@ -62,23 +68,42 @@ const FilterComponent = ({ onFilterChange }) => {
               name="category"
               value={category._id}
               onChange={handleCheckboxChange}
+              className="mr-2"
             />
             <label htmlFor={category.name} className="ml-2">{category.name}</label>
           </div>
         ))}
       </div>
     
-    
       <div className="mb-4">
         <h3 className="font-bold mb-2">Price Range</h3>
-        <input
-          type="range"
-          min="0"
-          max="10000"
-          step="100"
-          value={filters.priceRange.join(',')}
-          onChange={handlePriceRangeChange}
-        />
+        <div className="flex gap-2">
+          <input
+            type="number"
+            name="minPrice"
+            min="500"
+            max="5000"
+            step="100"
+            value={filters.priceRange[0]}
+            onChange={handlePriceRangeChange}
+            className="border rounded p-2 w-full"
+          />
+          <span className="self-center">-</span>
+          <input
+            type="number"
+            name="maxPrice"
+            min="500"
+            max="5000"
+            step="100"
+            value={filters.priceRange[1]}
+            onChange={handlePriceRangeChange}
+            className="border rounded p-2 w-full"
+          />
+        </div>
+        <div className="mt-2">
+          <span>From: {filters.priceRange[0]}</span> - 
+          <span> To: {filters.priceRange[1]}</span>
+        </div>
       </div>
     </div>
   );

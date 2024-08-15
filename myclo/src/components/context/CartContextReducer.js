@@ -23,13 +23,20 @@ const cartReducer = (state, action) => {
           item._id === action.payload._id ? action.payload : item
         ),
       };
+    case 'CLEAR_CART':
+      return { ...state, items: [] };
     default:
       return state;
   }
 };
 
+
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, { items: [], cartId: null });
+
+  const clearCart = () => {
+    dispatch({ type: 'CLEAR_CART' });
+  };
 
   const fetchCart = async () => {
     const token = localStorage.getItem('token');
@@ -120,7 +127,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart: state.items, cartId: state.cartId, addToCart, fetchCart, removeFromCart, updateCartItem }}>
+    <CartContext.Provider value={{ cart: state.items, cartId: state.cartId, addToCart,clearCart, fetchCart, removeFromCart, updateCartItem }}>
       {children}
     </CartContext.Provider>
   );

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Checkout = () => {
-  const { cart, cartId } = useCart();
+  const { cart, cartId,clearCart } = useCart();
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
@@ -274,7 +274,10 @@ const Checkout = () => {
             <p className="mb-4">Thank you for your purchase. Your order has been successfully placed.</p>
             <button 
               className="bg-black text-white font-bold py-2 px-4 rounded"
-              onClick={() => navigate('/shop')}
+              onClick={() => {
+                clearCart(); // Clear the cart
+                navigate('/shop'); // Redirect to shop page
+              }}
             >
               Continue Shopping
             </button>
