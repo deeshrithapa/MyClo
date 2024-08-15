@@ -63,9 +63,9 @@ const CardComponent = (props) => {
                 className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-lg font-bold"
                 style={{
                   height: '86%', // Adjust the height as needed
-                  width: '85%',  // Adjust the width as needed
+                  width: '82%',  // Adjust the width as needed
                   top: '28%',    // Center vertically
-                  left: '28%',   // Center horizontally
+                  left: '29%',   // Center horizontally
                   transform: 'translate(-25%, -25%)', // Center properly
                 }}
               >

@@ -54,9 +54,9 @@ const Login = () => {
   
         // Redirect based on role
         if (userRole === 'admin') {
-          navigate('/discover');
+          navigate('/category');
         } else if (userRole === 'user') {
-          navigate('/contact');
+          navigate('/discover');
         } else {
           navigate('/login'); // Redirect to an error page if role is not recognized
         }
