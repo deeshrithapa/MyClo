@@ -222,7 +222,7 @@ const AddProductComponent = () => {
           <div className="flex items-center justify-between">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-[#A28D8D] hover:bg-[#8f7b7b] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               {isEditing ? "Update Product" : "Add Product"}
             </button>

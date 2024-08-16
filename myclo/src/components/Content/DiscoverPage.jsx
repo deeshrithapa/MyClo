@@ -38,7 +38,7 @@ const DiscoverPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-beige p-6 flex flex-col items-center">
+    <div className="min-h-screen bg-[#EEE9DD] p-6 flex flex-col items-center">
       <style>
         {`
           .slick-slide img {

@@ -81,10 +81,10 @@ const ProductsByCategory = () => {
         />
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-8 ">
         {categories.map((category) => (
-          <div key={category._id} className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-4">{category.name}</h2>
+          <div key={category._id} className="bg-[#F4F1E9] rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold mb-4 text-[#806565]">{category.name}</h2>
             <div className="overflow-hidden" style={{ maxHeight: "600px" }}>
               {filteredGroupedProducts[category._id] && filteredGroupedProducts[category._id].length > 0 ? (
                 <Carousel

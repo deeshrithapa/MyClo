@@ -42,12 +42,12 @@ const CardComponent = (props) => {
       </div>
 
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  "
         style={{ backgroundColor: '#EEE9DD' }}
       >
         {filteredProducts(props.data).map((product) => (
           <div
-            className="relative max-w-sm rounded-lg overflow-hidden shadow-lg bg-white"
+            className="relative max-w-md rounded-lg overflow-hidden shadow-lg bg-white"
             key={product._id}
           >
             {/* Product Image */}

@@ -61,7 +61,7 @@ const ProductDetailsPage = () => {
   if (!product) return <p>Loading...</p>;
 
   return (
-    <div className="min-h-screen bg-beige p-6 flex flex-col items-center">
+    <div className="min-h-screen bg-[#EEE9DD] p-6 flex flex-col items-center">
       <div className="bg-white p-6 rounded-md shadow-lg border-2" style={{ borderColor: '#C8B8A2', maxWidth: '1200px', width: '100%' }}>
         <div className="flex flex-col md:flex-row mb-6">
           <div className="flex-1 mb-4 md:mb-0 md:mr-4">

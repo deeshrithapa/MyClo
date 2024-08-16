@@ -30,7 +30,7 @@ const WelcomeComponent = () => {
   };
 
   return (
-    <div className="bg-beige min-h-screen flex flex-col items-center justify-center p-0 m-0 overflow-hidden">
+    <div className="bg-[#EEE9DD] min-h-screen flex flex-col items-center justify-center p-0 m-0 overflow-hidden">
       {/* Background Image Section */}
       <div className="relative w-full h-[100vh] bg-cover bg-center rounded-none shadow-none" style={{ backgroundImage: `url(${hangImage})` }}>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
@@ -85,7 +85,7 @@ const WelcomeComponent = () => {
       </div>
 
       {/* Sale Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl w-full bg-beige p-4 mt-10 rounded-md shadow-lg" style={{ height: '40vh' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl w-full bg-[#F4F1E9] p-4 mt-3 mb-2 rounded-md shadow-lg" style={{ height: '40vh' }}>
         <div className="flex flex-col justify-center text-center md:text-left p-4 text-center">
           <h1 className="text-3xl font-bold" style={{ color: '#635353' }}>SUMMER SALE!</h1>
           <p className="mt-4" style={{ color: '#B19A9A' }}>

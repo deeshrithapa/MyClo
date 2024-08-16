@@ -20,7 +20,7 @@ const AboutComponent = () => {
     };
 
   return (
-    <div className="bg-beige min-h-screen p-6">
+    <div className="bg-[#EEE9DD] min-h-screen p-6">
       {/* Header Section */}
       <div className="text-center py-8">
         <h1 className="text-4xl font-bold text-gray-800">About Us</h1>

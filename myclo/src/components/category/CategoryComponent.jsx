@@ -95,7 +95,7 @@ const CategoryComponent = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-grow container mx-auto p-8 bg-beige">
+      <div className="flex-grow container mx-auto p-8 bg-[#EEE9DD]">
         <div className="flex space-x-8">
           {/* Form Section */}
           <form
@@ -134,7 +134,7 @@ const CategoryComponent = () => {
             <div className="flex items-center justify-between">
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-[#A28D8D] hover:bg-[#8f7b7b] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 {editingCategory ? "Update Category" : "Add Category"}
               </button>
