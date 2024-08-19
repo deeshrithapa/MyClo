@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../context/CartContextReducer'; // Adjust the import path
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();
@@ -17,6 +19,7 @@ const ProductDetailsPage = () => {
     vents: '',
   });
   const [showPopup, setShowPopup] = useState(false);
+  const [isUser, setIsUser] = useState(true); // To check if the role is `user`
 
   const { addToCart } = useCart(); // Destructure the addToCart function from the context
 
@@ -33,25 +36,57 @@ const ProductDetailsPage = () => {
     fetchProduct();
   }, [productId]);
 
-  const handleAddToCart = () => {
-    addToCart(
-      productId,
-      quantity,
-      selectedSize,
-      selectedColor,
-      customizations.shoulderType,
-      customizations.pockets,
-      customizations.hem,
-      customizations.vents
-    );
+  useEffect(() => {
+    const checkUserRole = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.get('http://localhost:5000/api/user/role', {
+            headers: { Authorization: token },
+          });
+          setIsUser(response.data.role === 'user');
+        } catch (error) {
+          console.error('Error checking user role:', error);
+        }
+      }
+    };
 
-    // Show the "Added to Cart" pop-up
-    setShowPopup(true);
+    checkUserRole();
+  }, []);
 
-    // Hide the pop-up after 3 seconds
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 3000);
+  const handleAddToCart = async () => {
+    if (!selectedSize || !selectedColor) {
+      toast.error('Please select size and color before adding to cart');
+      return;
+    }
+
+    if (!isUser) {
+      toast.error('Only users can add items to the cart');
+      return;
+    }
+
+    try {
+      await addToCart(
+        productId,
+        quantity,
+        selectedSize,
+        selectedColor,
+        customizations.shoulderType,
+        customizations.pockets,
+        customizations.hem,
+        customizations.vents
+      );
+
+      // Show the "Added to Cart" pop-up
+      setShowPopup(true);
+
+      // Hide the pop-up after 3 seconds
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+    } catch (error) {
+      toast.error('Failed to add item to cart');
+    }
   };
 
   const handleCustomizationChange = (optionType, value) => {
@@ -204,7 +239,7 @@ const ProductDetailsPage = () => {
               {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                className="bg-[#A28D8D]  hover:bg-[#8f7b7b] text-white font-bold py-2 px-4 rounded-md"
+                className="bg-[#A28D8D] hover:bg-[#8f7b7b] text-white font-bold py-2 px-4 rounded-md"
               >
                 Add to Cart
               </button>
@@ -219,11 +254,13 @@ const ProductDetailsPage = () => {
 };
 
 const PopupMessage = ({ message, visible }) => {
-  return visible ? (
+  if (!visible) return null;
+
+  return (
     <div className="fixed top-0 right-0 mt-4 mr-4 bg-green-500 text-white p-2 rounded shadow">
       {message}
     </div>
-  ) : null;
+  );
 };
 
 export default ProductDetailsPage;

@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Checkout = () => {
-  const { cart, cartId,clearCart } = useCart();
+  const { cart, cartId, clearCart } = useCart();
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State for showing success message
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [contactInfo, setContactInfo] = useState({ name: '', email: '', phone: '' });
   const [shippingAddress, setShippingAddress] = useState({ address: '', city: '', state: '', zip: '', country: '' });
   const [cardDetails, setCardDetails] = useState({ cardNumber: '', expiryMonth: '', expiryYear: '', cvc: '' });
@@ -21,19 +21,19 @@ const Checkout = () => {
 
   const handlePlaceOrder = async () => {
     try {
-      const token = localStorage.getItem('token'); // Ensure token is stored in local storage
+      const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('No token found, please log in again.');
       }
   
       const response = await axios.post('http://localhost:5000/api/orders/place-order', {
-        cartId, // Ensure `cartId` is correctly handled
-        contactInfo, // This can be omitted if not required for cash payments
+        cartId,
+        contactInfo,
         shippingAddress,
-        paymentMethod: 'cash' // Specify payment method as 'cash'
+        paymentMethod: 'cash'
       }, {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}` // Updated header to include Bearer prefix
         }
       });
   
@@ -45,29 +45,25 @@ const Checkout = () => {
       alert('There was an error placing your order. Please try again.');
     }
   };
-  
-  
-  
-  
 
   const handleCompletePurchase = async () => {
     try {
-      const token = localStorage.getItem('token'); // Ensure token is stored in local storage
+      const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('No token found, please log in again.');
       }
       await axios.post('http://localhost:5000/api/orders/complete-purchase', {
-        cartId,  // Include cartId in the payload
+        cartId,
         contactInfo,
         shippingAddress,
         cardDetails
       }, {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}` // Updated header to include Bearer prefix
         }
       });
       setShowPaymentPopup(false);
-      setShowSuccessMessage(true); // Show success message
+      setShowSuccessMessage(true);
     } catch (error) {
       console.error('Error completing purchase:', error);
       alert('There was an error completing your purchase. Please try again.');
@@ -90,11 +86,11 @@ const Checkout = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 flex flex-col md:flex-row">
+    <div className="container bg-[#EEE9DD]  h-screen mx-auto p-4 flex flex-col md:flex-row">
       <div className="flex-1 md:mr-4">
-        <h2 className="text-2xl font-bold mb-4">Checkout</h2>
+        <h2 className="text-[#947373] text-2xl font-bold mb-4">Checkout</h2>
         <form className="bg-white shadow-md rounded-lg p-4">
-          <h3 className="text-xl font-bold mb-4">Contact Information</h3>
+          <h3 className="text-[#947373] text-xl font-bold mb-4">Contact Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <input 
@@ -133,7 +129,7 @@ const Checkout = () => {
               <p className="text-red-500 text-sm absolute -bottom-6 left-0">Required</p>
             )}
           </div>
-          <h3 className="text-xl font-bold mt-4 mb-4">Shipping Address</h3>
+          <h3 className="text-[#947373] text-xl font-bold mt-4 mb-4">Shipping Address</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <input 
@@ -160,7 +156,7 @@ const Checkout = () => {
               )}
             </div>
           </div>
-          <h3 className="text-xl font-bold mt-4 mb-4">Payment Method</h3>
+          <h3 className="text-[#947373] text-xl font-bold mt-4 mb-4">Payment Method</h3>
           <div className="flex gap-4">
             <button 
               type="button" 
@@ -179,18 +175,17 @@ const Checkout = () => {
               <label htmlFor="cash">Cash</label>
             </button>
           </div>
-         <button 
-  type="button"
-  onClick={handlePlaceOrder} 
-  className="bg-black text-white font-bold py-2 px-4 rounded mt-4 block w-full"
->
-  Place Order
-</button>
-
+          <button 
+            type="button"
+            onClick={handlePlaceOrder} 
+            className="bg-[#A28D8D] text-white font-bold py-2 px-4 rounded mt-4 block w-full"
+          >
+            Place Order
+          </button>
         </form>
       </div>
       <div className="w-full md:w-1/3">
-        <h3 className="text-xl font-bold mb-4">Order Summary</h3>
+        <h3 className="text-[#947373] text-xl font-bold mb-4">Order Summary</h3>
         <div className="bg-white shadow-md rounded-lg p-4">
           {cart.map((item) => (
             <div key={item._id} className="flex justify-between mb-4">
@@ -205,11 +200,11 @@ const Checkout = () => {
             </div>
           ))}
           <div className="flex justify-between border-t pt-4">
-            <p className="font-bold">Subtotal</p>
+            <p className="text-[#947373] font-bold">Subtotal</p>
             <p className="font-bold">${total.toFixed(2)}</p>
           </div>
           <div className="flex justify-between border-t pt-4">
-            <p className="font-bold">Total</p>
+            <p className="text-[#947373] font-bold">Total</p>
             <p className="font-bold">${total.toFixed(2)}</p>
           </div>
         </div>
@@ -219,7 +214,7 @@ const Checkout = () => {
       {showPaymentPopup && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
-            <h3 className="text-xl font-bold mb-4">Payment</h3>
+            <h3 className="text-[#947373] text-xl font-bold mb-4">Payment</h3>
             <input 
               type="text" 
               placeholder="Card Number" 
@@ -227,7 +222,7 @@ const Checkout = () => {
               onChange={handleInputChange}
               name="cardDetails_cardNumber"
             />
-            <h4 className="text-lg font-semibold mb-2">Expiry Date</h4>
+            <h4 className="text-[#947373] text-lg font-semibold mb-2">Expiry Date</h4>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <select className="p-2 border rounded" name="cardDetails_expiryMonth" onChange={handleInputChange}>
                 <option value="">MM</option>
@@ -242,7 +237,7 @@ const Checkout = () => {
                 ))}
               </select>
             </div>
-            <h4 className="text-lg font-semibold mb-2">CVC</h4>
+            <h4 className="text-[#947373] text-lg font-semibold mb-2">CVC</h4>
             <input 
               type="text" 
               placeholder="CVC" 
@@ -251,7 +246,7 @@ const Checkout = () => {
               name="cardDetails_cvc"
             />
             <button 
-              className="bg-black text-white font-bold py-2 px-4 rounded w-full"
+              className="bg-[#A28D8D] text-white font-bold py-2 px-4 rounded w-full"
               onClick={handleCompletePurchase}
             >
               Complete Purchase
@@ -273,7 +268,7 @@ const Checkout = () => {
             <h3 className="text-xl font-bold mb-4">Order Successful!</h3>
             <p className="mb-4">Thank you for your purchase. Your order has been successfully placed.</p>
             <button 
-              className="bg-black text-white font-bold py-2 px-4 rounded"
+              className="bg-[#A28D8D] text-white font-bold py-2 px-4 rounded"
               onClick={() => {
                 clearCart(); // Clear the cart
                 navigate('/shop'); // Redirect to shop page
